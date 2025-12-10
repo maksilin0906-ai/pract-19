@@ -1,0 +1,27 @@
+using System;
+using System.Collections.Generic;
+
+public class Program
+{
+    public static void Main()
+    {
+        Stack<string> stack = new Stack<string>();
+
+        Console.WriteLine("Вводите строки (пустая строка — конец ввода):");
+
+        while (true)
+        {
+            string input = Console.ReadLine();
+            if (string.IsNullOrWhiteSpace(input))
+                break;
+            stack.Push(input);
+        }
+
+        Console.WriteLine("\nВывод в обратном порядке:");
+
+        while (stack.Count > 0)
+        {
+            Console.WriteLine(stack.Pop());
+        }
+    }
+}
