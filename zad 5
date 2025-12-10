@@ -1,0 +1,89 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+class SimpleCache
+{
+    private Dictionary<string, string> cache;
+    private Queue<string> accessOrder;
+    private const int MAX_SIZE = 3;
+    
+    public SimpleCache()
+    {
+        cache = new Dictionary<string, string>(MAX_SIZE);
+        accessOrder = new Queue<string>(MAX_SIZE);
+    }
+    
+    public void Add(string key, string value)
+    {
+        if (cache.ContainsKey(key))
+        {
+            
+            cache[key] = value;
+            
+            UpdateAccessOrder(key);
+            return;
+        }
+        
+        if (cache.Count >= MAX_SIZE && accessOrder.Count > 0)
+        {
+            string oldestKey = accessOrder.Dequeue();
+            cache.Remove(oldestKey);
+            Console.WriteLine($"Удален самый старый элемент: {oldestKey}");
+        }
+        
+        cache[key] = value;
+        accessOrder.Enqueue(key);
+        
+        Console.WriteLine($"Добавлен: {key} -> {value}");
+        PrintCache();
+    }
+    
+    private void UpdateAccessOrder(string key)
+    {
+        
+        var newQueue = new Queue<string>();
+        foreach (var item in accessOrder)
+        {
+            if (item != key)
+            {
+                newQueue.Enqueue(item);
+            }
+        }
+        newQueue.Enqueue(key); // Добавляем в конец как самый новый
+        accessOrder = newQueue;
+    }
+    
+    public string Get(string key)
+    {
+        if (cache.TryGetValue(key, out string value))
+        {
+            UpdateAccessOrder(key);
+            return value;
+        }
+        return null;
+    }
+    
+    public void PrintCache()
+    {
+        Console.WriteLine("Текущий кэш:");
+        foreach (var kvp in cache)
+        {
+            Console.WriteLine($"- {kvp.Key}: {kvp.Value}");
+        }
+        Console.WriteLine();
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        SimpleCache cache = new SimpleCache();
+      
+        cache.Add("google.com", "Главная страница Google");
+        cache.Add("github.com", "Платформа для разработчиков");
+        cache.Add("vk.com", "Социальная сеть");
+        cache.Add("youtube.com", "Видеохостинг");
+    }
+}
