@@ -1,0 +1,56 @@
+using System;
+using System.Collections.Generic;
+
+class BrowserHistory
+{
+    private LinkedList<string> history;
+    private LinkedListNode<string> current;
+
+    public BrowserHistory()
+    {
+        history = new LinkedList<string>();
+    }
+
+    public void AddPage(string url)
+    {
+        history.AddLast(url);
+        current = history.Last;
+        Console.WriteLine($"Добавлена: {url}");
+    }
+
+    public void Back()
+    {
+        if (current != null && current.Previous != null)
+        {
+            current = current.Previous;
+            Console.WriteLine($"Текущая страница: {current.Value}");
+        }
+        else
+        {
+            Console.WriteLine("Нельзя перейти назад");
+        }
+    }
+}
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        Console.WriteLine("=== История браузера ===\n");
+
+        BrowserHistory browser = new BrowserHistory();
+
+        Console.WriteLine("Добавляем страницы:");
+        browser.AddPage("google.com");
+        browser.AddPage("youtube.com");
+        browser.AddPage("github.com");
+
+        Console.WriteLine("\nВыполняем команды back:");
+        browser.Back();
+        browser.Back();
+
+        Console.WriteLine("\nДополнительный тест:");
+        Console.WriteLine("Попытка перейти назад еще раз:");
+        browser.Back();
+    }
+}
