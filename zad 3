@@ -1,0 +1,24 @@
+using System;
+using System.Collections.Generic;
+
+public class Program
+{
+    public static void Main()
+    {
+        HashSet<string> names = new HashSet<string>();
+
+        Console.WriteLine("Вводите имена (пустая строка — конец ввода):");
+
+        while (true)
+        {
+            string input = Console.ReadLine();
+            if (string.IsNullOrWhiteSpace(input))
+                break;
+            names.Add(input);
+        }
+        List<string> sortedNames = new List<string>(names);
+        sortedNames.Sort()
+
+        Console.WriteLine("\nУникальные: " + string.Join(", ", sortedNames));
+    }
+}
