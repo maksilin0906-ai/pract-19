@@ -1,0 +1,23 @@
+using System;
+using System.Collections.Generic;
+public class Program
+{
+    public static void Main()
+    {
+        Queue<string> queue = new Queue<string>();
+        queue.Enqueue("Керил");
+        queue.Enqueue("Витя");
+        queue.Enqueue("Максим");
+        queue.Enqueue("Данил");
+        queue.Enqueue("Тайлер");
+
+        Console.WriteLine("Очередь: " + string.Join(", ", queue));   
+        while (queue.Count > 0)
+
+        {
+            string customer = queue.Dequeue();
+            Console.WriteLine("Обслуживаем: " + customer);
+        }
+        Console.WriteLine("Очередь пуста");
+    }
+}
